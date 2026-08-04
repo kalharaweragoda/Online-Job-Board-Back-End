@@ -37,7 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+    'rest_framework',
+    'user',
+    'company',
+    'category',
+    'job',
+    'application',
+]   
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,6 +85,8 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'user.User'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -116,18 +124,3 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',
-    'user',
-    'company',
-    'category',
-    'job',
-    'application',
-]   
