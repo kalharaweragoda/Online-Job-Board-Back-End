@@ -56,7 +56,8 @@ class JobApplicantsView(generics.ListAPIView):
         return Application.objects.filter(job_id=job_id, job__company__employer=self.request.user)
 
 
-# Employer: update applicant status
+  # update applicant status
+  
 class ApplicationStatusUpdateView(generics.UpdateAPIView):
     serializer_class = ApplicationStatusUpdateSerializer
     permission_classes = [permissions.IsAuthenticated, IsEmployer]
@@ -66,7 +67,9 @@ class ApplicationStatusUpdateView(generics.UpdateAPIView):
 
     def perform_update(self, serializer):
         application = serializer.save()
+        
         # Notify job seeker of status change
+        
         try:
             send_mail(
                 subject='Application Status Updated',
