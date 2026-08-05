@@ -1,9 +1,7 @@
 from django.db import models
 
 from user.models import User
-
 from job.models import Job
-
 
 class Application(models.Model):
     STATUS_CHOICES = (
