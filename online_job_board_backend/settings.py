@@ -147,3 +147,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
+#Email
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  
+DEFAULT_FROM_EMAIL = 'admin@jobboard.com'
