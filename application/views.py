@@ -39,7 +39,7 @@ class ApplicationCreateView(generics.CreateAPIView):
             logger.warning(f"Failed to send application email: {e}")
 
 
-# view applications
+# job seeker: view own applications
 class MyApplicationsView(generics.ListAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [permissions.IsAuthenticated, IsJobSeeker]
@@ -48,7 +48,7 @@ class MyApplicationsView(generics.ListAPIView):
         return Application.objects.filter(applicant=self.request.user)
 
 
-# view applicants for jobs
+# employer: view applicants for their jobs
 class JobApplicantsView(generics.ListAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [permissions.IsAuthenticated, IsEmployer]
@@ -58,7 +58,7 @@ class JobApplicantsView(generics.ListAPIView):
         return Application.objects.filter(job_id=job_id, job__company__employer=self.request.user)
 
 
-# update applicant status
+# employer: update applicant status
 class ApplicationStatusUpdateView(generics.UpdateAPIView):
     serializer_class = ApplicationStatusUpdateSerializer
     permission_classes = [permissions.IsAuthenticated, IsEmployer]
@@ -69,7 +69,7 @@ class ApplicationStatusUpdateView(generics.UpdateAPIView):
     def perform_update(self, serializer):
         application = serializer.save()
 
-        # job seeker status change
+        # notify job seeker of status change
         try:
             send_mail(
                 subject='Application Status Updated',
