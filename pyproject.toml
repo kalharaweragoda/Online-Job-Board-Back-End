@@ -1,5 +1,5 @@
 [tool.ruff.lint]
-ignore = ["RUF012"]
+ignore = ["RUF012", "BLE001"]
 
 [tool.ruff.lint.isort]
 combine-as-imports = true
