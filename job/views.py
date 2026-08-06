@@ -17,7 +17,7 @@ class JobListView(generics.ListAPIView):
     search_fields = ['title', 'description']
 
 
-# Employer: create job 
+#  create job 
 class JobCreateView(generics.CreateAPIView):
     serializer_class = JobSerializer
     permission_classes = [permissions.IsAuthenticated, IsEmployer]
@@ -27,7 +27,7 @@ class JobCreateView(generics.CreateAPIView):
         serializer.save(company=company)
 
 
-# Employer: edit/close own job only
+# edit/close own job only
 
 class JobUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = JobSerializer
