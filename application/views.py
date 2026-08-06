@@ -9,7 +9,7 @@ from .serializers import ApplicationSerializer, ApplicationStatusUpdateSerialize
 from user.permissions import IsJobSeeker, IsEmployer
 
 
-# Job Seeker: apply to a job
+#apply to a job
 class ApplicationCreateView(generics.CreateAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [permissions.IsAuthenticated, IsJobSeeker]
@@ -17,7 +17,7 @@ class ApplicationCreateView(generics.CreateAPIView):
     def perform_create(self, serializer):
         application = serializer.save(applicant=self.request.user)
 
-        # Email notification (business logic + Section 4.5 requirement)
+        # Email notification (Section 4.5 requirement)
         try:
             send_mail(
                 subject='Application Submitted',
@@ -37,7 +37,7 @@ class ApplicationCreateView(generics.CreateAPIView):
             pass
 
 
-# Job Seeker: view own applications
+# view applications
 class MyApplicationsView(generics.ListAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [permissions.IsAuthenticated, IsJobSeeker]
@@ -46,7 +46,7 @@ class MyApplicationsView(generics.ListAPIView):
         return Application.objects.filter(applicant=self.request.user)
 
 
-# Employer: view applicants for own jobs
+#view applicants for jobs
 class JobApplicantsView(generics.ListAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [permissions.IsAuthenticated, IsEmployer]
@@ -68,7 +68,7 @@ class ApplicationStatusUpdateView(generics.UpdateAPIView):
     def perform_update(self, serializer):
         application = serializer.save()
         
-        # Notify job seeker of status change
+        #job seeker status change
         
         try:
             send_mail(
