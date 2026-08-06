@@ -1,7 +1,8 @@
 from django.db import models
 
-from company.models import Company
 from category.models import Category
+from company.models import Company
+
 
 class Job(models.Model):
     STATUS_CHOICES = (

@@ -1,13 +1,16 @@
-from django.shortcuts import render
+import logging
 
-from rest_framework import generics, permissions
-from rest_framework.response import Response
-from django.core.mail import send_mail
+logger = logging.getLogger(__name__)
 from django.conf import settings as django_settings
+from django.core.mail import send_mail
+from rest_framework import generics, permissions
+
+from user.permissions import IsEmployer, IsJobSeeker
+
 from .models import Application
 from .serializers import ApplicationSerializer, ApplicationStatusUpdateSerializer
-from user.permissions import IsJobSeeker, IsEmployer
 
+logger = logging.getLogger(__name__)
 
 #apply to a job
 class ApplicationCreateView(generics.CreateAPIView):

@@ -1,9 +1,10 @@
-from django.shortcuts import render
 
 from rest_framework import generics, permissions
+
+from user.permissions import IsEmployer
+
 from .models import Company
 from .serializers import CompanySerializer
-from user.permissions import IsEmployer
 
 
 class CompanyCreateView(generics.CreateAPIView):

@@ -1,14 +1,14 @@
-from django.shortcuts import render
+import logging
 
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status, permissions
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.core.mail import send_mail
 from django.conf import settings as django_settings
-from .serializers import UserRegisterSerializer, UserSerializer
-from .models import User
+from django.core.mail import send_mail
+from rest_framework import permissions, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
+from .serializers import UserRegisterSerializer, UserSerializer
+
+logger = logging.getLogger(__name__)
 
 class RegisterView(APIView):
     permission_classes = [permissions.AllowAny]

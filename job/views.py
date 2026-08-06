@@ -1,11 +1,12 @@
-from django.shortcuts import render
 
-from rest_framework import generics, permissions, filters
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, generics, permissions
+
+from company.models import Company
+from user.permissions import IsEmployer
+
 from .models import Job
 from .serializers import JobSerializer
-from user.permissions import IsEmployer
-from company.models import Company
 
 
 class JobListView(generics.ListAPIView):

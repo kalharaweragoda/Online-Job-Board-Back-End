@@ -1,7 +1,10 @@
 from django.urls import path
+
 from .views import (
-    ApplicationCreateView, MyApplicationsView,
-    JobApplicantsView, ApplicationStatusUpdateView
+    ApplicationCreateView,
+    ApplicationStatusUpdateView,
+    JobApplicantsView,
+    MyApplicationsView,
 )
 
 urlpatterns = [
