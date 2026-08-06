@@ -1,6 +1,5 @@
 import logging
 
-logger = logging.getLogger(__name__)
 from django.conf import settings as django_settings
 from django.core.mail import send_mail
 from rest_framework import generics, permissions
@@ -12,14 +11,14 @@ from .serializers import ApplicationSerializer, ApplicationStatusUpdateSerialize
 
 logger = logging.getLogger(__name__)
 
-#apply to a job
+
+# apply to a job
 class ApplicationCreateView(generics.CreateAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [permissions.IsAuthenticated, IsJobSeeker]
 
     def perform_create(self, serializer):
         application = serializer.save(applicant=self.request.user)
-
         # Email notification (Section 4.5 requirement)
         try:
             send_mail(
@@ -36,8 +35,8 @@ class ApplicationCreateView(generics.CreateAPIView):
                 recipient_list=[application.job.company.employer.email],
                 fail_silently=True,
             )
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning(f"Failed to send application email: {e}")
 
 
 # view applications
@@ -49,7 +48,7 @@ class MyApplicationsView(generics.ListAPIView):
         return Application.objects.filter(applicant=self.request.user)
 
 
-#view applicants for jobs
+# view applicants for jobs
 class JobApplicantsView(generics.ListAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [permissions.IsAuthenticated, IsEmployer]
@@ -59,8 +58,7 @@ class JobApplicantsView(generics.ListAPIView):
         return Application.objects.filter(job_id=job_id, job__company__employer=self.request.user)
 
 
-  # update applicant status
-  
+# update applicant status
 class ApplicationStatusUpdateView(generics.UpdateAPIView):
     serializer_class = ApplicationStatusUpdateSerializer
     permission_classes = [permissions.IsAuthenticated, IsEmployer]
@@ -70,9 +68,8 @@ class ApplicationStatusUpdateView(generics.UpdateAPIView):
 
     def perform_update(self, serializer):
         application = serializer.save()
-        
-        #job seeker status change
-        
+
+        # job seeker status change
         try:
             send_mail(
                 subject='Application Status Updated',
@@ -81,5 +78,5 @@ class ApplicationStatusUpdateView(generics.UpdateAPIView):
                 recipient_list=[application.applicant.email],
                 fail_silently=True,
             )
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning(f"Failed to send status update email: {e}")
