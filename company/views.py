@@ -18,3 +18,6 @@ class CompanyDetailView(generics.RetrieveUpdateAPIView):
 
     def get_queryset(self):
         return Company.objects.filter(employer=self.request.user)
+
+    def get_object(self):
+        return self.get_queryset().get()
