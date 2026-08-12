@@ -19,6 +19,7 @@ class JobListView(generics.ListAPIView):
 
 
 #  create job 
+
 class JobCreateView(generics.CreateAPIView):
     serializer_class = JobSerializer
     permission_classes = [permissions.IsAuthenticated, IsEmployer]

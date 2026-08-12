@@ -13,13 +13,16 @@ logger = logging.getLogger(__name__)
 
 
 # apply to a job
+
 class ApplicationCreateView(generics.CreateAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [permissions.IsAuthenticated, IsJobSeeker]
 
     def perform_create(self, serializer):
         application = serializer.save(applicant=self.request.user)
-        # Email notification (Section 4.5 requirement)
+        
+        # Email notification
+         
         try:
             send_mail(
                 subject='Application Submitted',
@@ -39,7 +42,8 @@ class ApplicationCreateView(generics.CreateAPIView):
             logger.warning(f"Failed to send application email: {e}")
 
 
-# job seeker: view own applications
+# job seeker
+
 class MyApplicationsView(generics.ListAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [permissions.IsAuthenticated, IsJobSeeker]
@@ -48,7 +52,8 @@ class MyApplicationsView(generics.ListAPIView):
         return Application.objects.filter(applicant=self.request.user)
 
 
-# employer: view applicants for their jobs
+# employer - view applicants for their jobs
+
 class JobApplicantsView(generics.ListAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [permissions.IsAuthenticated, IsEmployer]
@@ -58,7 +63,8 @@ class JobApplicantsView(generics.ListAPIView):
         return Application.objects.filter(job_id=job_id, job__company__employer=self.request.user)
 
 
-# employer: update applicant status
+# employer -  update applicant status
+
 class ApplicationStatusUpdateView(generics.UpdateAPIView):
     serializer_class = ApplicationStatusUpdateSerializer
     permission_classes = [permissions.IsAuthenticated, IsEmployer]
@@ -69,7 +75,8 @@ class ApplicationStatusUpdateView(generics.UpdateAPIView):
     def perform_update(self, serializer):
         application = serializer.save()
 
-        # notify job seeker of status change
+        #job seeker of status change
+        
         try:
             send_mail(
                 subject='Application Status Updated',

@@ -18,7 +18,7 @@ class RegisterView(APIView):
         if serializer.is_valid():
             user = serializer.save()
 
-            # Email sending function (Section 4.5 requirement)
+            # Email sending function
             try:
                 send_mail(
                     subject='Welcome to Job Board!',
@@ -27,8 +27,7 @@ class RegisterView(APIView):
                     recipient_list=[user.email],
                     fail_silently=True,   # don't crash the request if email fails
                 )
-            except Exception:
-                pass
+            except Exception: pass
 
             return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
