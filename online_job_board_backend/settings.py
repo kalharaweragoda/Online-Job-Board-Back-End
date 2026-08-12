@@ -156,3 +156,8 @@ STATIC_URL = 'static/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  
 DEFAULT_FROM_EMAIL = 'admin@jobboard.com'
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
